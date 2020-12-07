@@ -1,0 +1,93 @@
+#headermenu {
+    display: table;
+}
+
+.menu_item {
+    display: table-cell;
+    padding-right: 20px;
+}
+
+/* https://www.w3schools.com/css/css_link.asp
+The four links states are:
+a:link - a normal, unvisited link
+a:visited - a link the user has visited
+a:hover
+a:active
+*/
+a:link {
+    color: cornflowerblue;
+    text-decoration: none; /* underline ro barmidare */
+}
+
+a:visited {
+    color: indigo;
+}
+
+a:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+a:active {
+    color: red;
+}
+
+#headermenu a:link {
+    font-size: large;
+}
+
+.pageheading {
+    color: #6ed99c;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+table {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+}
+
+th {
+    background: #6ed99c;
+    color: cornsilk;
+    font-size: larger;
+}
+
+/* element.class	p.intro	   Selects all <p> elements with class="intro" */
+table.tablesinform {
+    border: 0;
+    padding: 4px;
+}
+
+input {
+    border: 1px solid;
+    border-radius: 3px;
+    border-color: #6ed99c;
+    height: 20px;
+}
+
+input[type=submit]:hover, input[type=button]:hover {
+    background-color: #6ed99c;
+    color: black;
+}
+
+button:hover {
+    background-color: white;
+    color: #6ed99c;
+}
+
+.message {
+    font-style: italic;
+    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    color: #ff338d;
+}
+
+.error{
+    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    color: #ff338d;
+    margin: 5px;
+    font-style: italic;
+}
