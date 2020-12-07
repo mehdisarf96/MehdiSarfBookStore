@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence" version="2.0">
+
+    <persistence-unit name="MehdiSarfBookStore">
+
+        <class>com.mehdisarf.mehdisarfbookstore.entity.Users</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.OrderDetail</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.Book</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.BookOrder</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.Category</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.Customer</class>
+        <class>com.mehdisarf.mehdisarfbookstore.entity.Review</class>
+
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mehdibookstore"/>
+            <property name="javax.persistence.jdbc.user" value="student"/>
+            <property name="javax.persistence.jdbc.password" value="student"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/mehdibookstore"/>
+            <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+        </properties>
+
+    </persistence-unit>
+
+</persistence>
