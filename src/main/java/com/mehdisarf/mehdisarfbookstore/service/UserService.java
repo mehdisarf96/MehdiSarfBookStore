@@ -14,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
-public class UserService extends BaseService {
+public class UserService {
 
     private UserDAO userDAO;
     private HttpServletRequest request;
@@ -23,7 +23,7 @@ public class UserService extends BaseService {
     public UserService(HttpServletRequest request, HttpServletResponse response) {
         this.request = request;
         this.response = response;
-        userDAO = new UserDAO(entityManager);
+        userDAO = new UserDAO();
     }
 
     public void listUser(String msg) throws ServletException, IOException {
@@ -96,6 +96,7 @@ public class UserService extends BaseService {
     public void edit() throws ServletException, IOException {
 
         int userId = Integer.parseInt(request.getParameter("userid"));
+
         Users theUser = find(userId);
 
         request.setAttribute("theUser", theUser);

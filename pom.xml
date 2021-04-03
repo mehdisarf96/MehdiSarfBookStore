@@ -74,6 +74,13 @@
             <version>8.0.22</version>
         </dependency>
 
+        <!-- C3P0  -->
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-c3p0</artifactId>
+            <version>5.4.27.Final</version>
+        </dependency>
+
         <!-- Spring Core -->
         <dependency>
             <groupId>org.springframework</groupId>

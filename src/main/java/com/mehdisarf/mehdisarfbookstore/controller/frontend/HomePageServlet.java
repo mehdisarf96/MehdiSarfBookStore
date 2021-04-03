@@ -1,6 +1,9 @@
 package com.mehdisarf.mehdisarfbookstore.controller.frontend;
 
+import com.mehdisarf.mehdisarfbookstore.dao.BookDAO;
+import com.mehdisarf.mehdisarfbookstore.entity.Book;
 import com.mehdisarf.mehdisarfbookstore.entity.Category;
+import com.mehdisarf.mehdisarfbookstore.service.BookService;
 import com.mehdisarf.mehdisarfbookstore.service.CategoryService;
 
 import javax.servlet.RequestDispatcher;
@@ -17,10 +20,16 @@ public class HomePageServlet extends HttpServlet {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        CategoryService service = new CategoryService(request, response);
-        List<Category> categories = service.listAll();
+        BookService bookService = new BookService(request, response);
+        List<Book> newBooks = bookService.listNewBook();
+        request.setAttribute("newBooks", newBooks);
 
-        request.setAttribute("categories", categories);
+        BookDAO bookDAO = new BookDAO();
+        List<Book> bestSellingBook = bookDAO.listBestSellingBook();
+        request.setAttribute("bestSellers", bestSellingBook);
+
+        List<Book> mostInterestedBooks = bookDAO.listMostInterestedBooks();
+        request.setAttribute("mostInterested", mostInterestedBooks);
 
         String homePage = "/frontend/index.jsp";
 

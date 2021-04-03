@@ -7,10 +7,6 @@ import java.util.List;
 
 public class CategoryDAO extends JpaDAO<Category> implements GenericDAO<Category> {
 
-    public CategoryDAO(EntityManager entityManager) {
-        super(entityManager);
-    }
-
     @Override
     public Category create(Category category) {
         return super.create(category);

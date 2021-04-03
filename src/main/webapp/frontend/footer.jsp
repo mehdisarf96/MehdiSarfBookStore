@@ -1,4 +1,4 @@
-<div align="center">
+<div align="center" style="clear: both">
 
     <a href="about">About Us</a> |
     <a href="contact">Contact Us</a>

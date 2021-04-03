@@ -1,6 +1,5 @@
 package com.mehdisarf.mehdisarfbookstore.dao;
 
-import com.mehdisarf.mehdisarfbookstore.dao.UserDAO;
 import com.mehdisarf.mehdisarfbookstore.entity.Users;
 import org.junit.*;
 
@@ -10,15 +9,14 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class UserDAOTest extends BaseDAOTest {
+public class UserDAOTest {
 
     private static UserDAO userDAO;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
 
-        BaseDAOTest.setUpClass();
-        userDAO = new UserDAO(entityManager);
+        userDAO = new UserDAO();
     }
 
     @Test
@@ -122,17 +120,17 @@ public class UserDAOTest extends BaseDAOTest {
 
     @Test
     public void testCheckLogin() {
-        assertTrue(userDAO.checkLogin("sartre@gmail.com","Jean-Paul "));
+        assertTrue(userDAO.checkLogin("sartre@gmail.com", "Jean-Paul "));
     }
 
     @Test
     public void testCheckLoginFailed() {
-        assertFalse(userDAO.checkLogin("s623artre@gmail.com","Jean-Paul "));
+        assertFalse(userDAO.checkLogin("s623artre@gmail.com", "Jean-Paul "));
     }
 
     @AfterClass
     public static void tearDownClass() throws Exception {
-        BaseDAOTest.tearDownClass();
+        userDAO.closeFactory();
     }
 
 }

@@ -6,11 +6,20 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
+@Table(name = "Customer")
+@NamedQueries(
+        {
+                @NamedQuery(name = "Customer.findAll", query = "select c from Customer c order by c.registerDate desc"),
+                @NamedQuery(name = "Customer.countAll", query = "select count(*) from Customer c"),
+                @NamedQuery(name = "Customer.findByEmail", query = "select c from Customer c where c.email = :email"),
+                @NamedQuery(name = "Customer.checkLogin", query = "select c from Customer c where c.email = :email and c.password = :pass")
+        }
+)
 public class Customer {
 
     private Integer customerId;
     private String email;
-    private String fullname;
+    private String fullName;
     private String address;
     private String city;
     private String country;
@@ -24,10 +33,14 @@ public class Customer {
     public Customer() {
     }
 
-    public Customer(String email, String fullname, String address, String city, String country, String phone,
+    public Customer(Integer customerId) {
+        this.customerId = customerId;
+    }
+
+    public Customer(String email, String fullName, String address, String city, String country, String phone,
                     String zipcode, String password, Date registerDate) {
         this.email = email;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -37,10 +50,10 @@ public class Customer {
         this.registerDate = registerDate;
     }
 
-    public Customer(String email, String fullname, String address, String city, String country, String phone,
+    public Customer(String email, String fullName, String address, String city, String country, String phone,
                     String zipcode, String password, Date registerDate, Set<Review> reviews, Set<BookOrder> bookOrders) {
         this.email = email;
-        this.fullname = fullname;
+        this.fullName = fullName;
         this.address = address;
         this.city = city;
         this.country = country;
@@ -73,12 +86,12 @@ public class Customer {
     }
 
     @Column(name = "fullname", nullable = false, length = 30)
-    public String getFullname() {
-        return this.fullname;
+    public String getFullName() {
+        return this.fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullname) {
+        this.fullName = fullname;
     }
 
     @Column(name = "address", nullable = false, length = 128)
@@ -145,7 +158,7 @@ public class Customer {
         this.registerDate = registerDate;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     public Set<Review> getReviews() {
         return this.reviews;
     }
@@ -154,7 +167,7 @@ public class Customer {
         this.reviews = reviews;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "customer")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "customer")
     public Set<BookOrder> getBookOrders() {
         return this.bookOrders;
     }

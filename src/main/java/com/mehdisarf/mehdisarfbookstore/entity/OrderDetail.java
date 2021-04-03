@@ -5,6 +5,11 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
+@Table(name = "order_detail")
+@NamedQueries({
+        @NamedQuery(name = "OrderDetail.bestSell",
+                query = "select od.book from OrderDetail od group by od.book.bookId order by sum(od.quantity) desc ")
+})
 public class OrderDetail implements java.io.Serializable {
 
     private CompositeOrderDetailPk id = new CompositeOrderDetailPk();
@@ -52,7 +57,7 @@ public class OrderDetail implements java.io.Serializable {
         this.id.setBook(book);
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id", insertable = false, updatable = false, nullable = false)
     public BookOrder getBookOrder() {
         return this.bookOrder;

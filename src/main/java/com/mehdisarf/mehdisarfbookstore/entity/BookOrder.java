@@ -1,14 +1,19 @@
 package com.mehdisarf.mehdisarfbookstore.entity;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
 import java.util.*;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Table(name = "book_order", schema = "mehdibookstore")
-
+@NamedQueries({
+        @NamedQuery(name = "BookOrder.findAll", query = "select bo from BookOrder bo order by bo.orderDate desc "),
+        @NamedQuery(name = "BookOrder.countAll", query = "select count(*) from BookOrder bo"),
+        @NamedQuery(name = "BookOrder.listByCustomer", query = "select bo from BookOrder bo where bo.customer.customerId = :customerId"),
+        @NamedQuery(name = "BookOrder.findByCustomer", query = "select bo from BookOrder bo where bo.orderId = :orderId and bo.customer.customerId = :customerId"),
+        @NamedQuery(name = "BookOrder.mostRecentOrder", query = "select bo from BookOrder bo order by bo.orderDate desc")
+})
 public class BookOrder {
 
     private Integer orderId;
@@ -105,28 +110,16 @@ public class BookOrder {
     }
 
     @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((orderId == null) ? 0 : orderId.hashCode());
-        return result;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        BookOrder bookOrder = (BookOrder) o;
+        return orderId.equals(bookOrder.orderId);
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        BookOrder other = (BookOrder) obj;
-        if (orderId == null) {
-            if (other.orderId != null)
-                return false;
-        } else if (!orderId.equals(other.orderId))
-            return false;
-        return true;
+    public int hashCode() {
+        return Objects.hash(orderId);
     }
 
     public void setRecipientPhone(String recipientPhone) {
@@ -167,5 +160,17 @@ public class BookOrder {
 
     public void setOrderDetails(Set<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
+    }
+
+    @Transient
+    public int getNumberOfBooksInOrder() {
+
+        int sum = 0;
+
+        for (OrderDetail detail : this.orderDetails) {
+            sum += detail.getQuantity();
+        }
+
+        return sum;
     }
 }

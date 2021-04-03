@@ -4,7 +4,9 @@
 <div align="center">
 
     <div>
-        <img src="../images/MehdiSarfLogo.png" style="margin-top:-30px">
+        <a href="${pageContext.request.contextPath}/admin/">
+            <img src="../images/MehdiSarfLogo.png" style="margin-top:-30px">
+        </a>
     </div>
 
     <c:if test="${sessionScope.email != null}">
@@ -18,17 +20,6 @@
     <br>
 
     <div id="headermenu">
-        <!-- The display property specifies the display behavior of an element. -->
-        <!-- meghdare "table" : Let the element behave like a <table> element -->
-        <!-- meghdare "table-cell" : Let the element behave like a <td> element -->
-
-        <!--
-        In the CSS, a class selector is a name preceded by a full stop (“.”)
-        and an ID selector is a name preceded by a hash character (“#”).
-        The difference between an ID and a class is that an ID can be used to identify one element
-        , whereas a class can be used to identify more than one
-        -->
-
 
         <div class="menu_item">
             <a href="list_users">
@@ -47,7 +38,7 @@
         </div>
 
         <div class="menu_item">
-            <a href="">
+            <a href="list_book">
                 <img src="../images/book.png">
                 <br>
                 Books
@@ -55,7 +46,7 @@
         </div>
 
         <div class="menu_item">
-            <a href="">
+            <a href="list_customer">
                 <img src="../images/customer.png">
                 <br>
                 Customers
@@ -63,7 +54,7 @@
         </div>
 
         <div class="menu_item">
-            <a href="">
+            <a href="list_review">
                 <img src="../images/finalreview.png">
                 <br>
                 Reviews
@@ -71,7 +62,7 @@
         </div>
 
         <div class="menu_item">
-            <a href="">
+            <a href="list_order">
                 <img src="../images/finalorder.png">
                 <br>
                 Orders

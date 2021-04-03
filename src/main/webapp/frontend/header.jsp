@@ -5,23 +5,47 @@
 <div align="center">
 
     <div>
-
-        <img src="images/MehdiSarfLogo.png" style="margin-top:-30px">
-
+        <a href="${pageContext.request.contextPath}">
+            <img src="images/MehdiSarfLogo.png" style="margin-top:-30px">
+        </a>
     </div>
 
     <div style="margin-top: -40px">
 
-        <input type="text" size="50" name="keyword">
-        <input type="button" value="Search">
+        <form action="search" method="post">
 
-        &nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" size="50" name="keyword">
+            <input type="submit" value="Search">
 
-        <a href="login">Sign In</a> |
-        <a href="register">Register</a> |
-        <a href="admin/login.jsp">Login</a> |
-        <a href="view_cart">Cart</a>
 
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            <c:choose>
+
+                <c:when test="${sessionScope.theCustomer ne null}">
+
+                    Welcome
+                    <a href="view_profile">
+                            ${sessionScope.theCustomer.fullName}
+                    </a> |
+
+                    <a href="view_orders">My Orders</a> |
+                    <a href="logout">Sign Out</a> |
+                    <a href="view_cart">Cart</a>
+
+                </c:when>
+
+                <c:otherwise>
+
+                    <a href="login">Sign In</a> |
+                    <a href="signup">Sign Up</a> |
+                    <a href="admin/login.jsp">Admin Panel</a>
+
+                </c:otherwise>
+
+            </c:choose>
+
+        </form>
     </div>
 
     <div>&nbsp;&nbsp;</div>

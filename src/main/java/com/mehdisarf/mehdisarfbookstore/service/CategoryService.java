@@ -1,5 +1,6 @@
 package com.mehdisarf.mehdisarfbookstore.service;
 
+import com.mehdisarf.mehdisarfbookstore.dao.BookDAO;
 import com.mehdisarf.mehdisarfbookstore.dao.CategoryDAO;
 import com.mehdisarf.mehdisarfbookstore.entity.Category;
 
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-public class CategoryService extends BaseService {
+public class CategoryService {
 
     private CategoryDAO categoryDAO;
 
@@ -24,7 +25,7 @@ public class CategoryService extends BaseService {
         this.request = request;
         this.response = response;
 
-        categoryDAO = new CategoryDAO(entityManager);
+        categoryDAO = new CategoryDAO();
     }
 
     public void list(String msg) throws ServletException, IOException {
@@ -37,15 +38,14 @@ public class CategoryService extends BaseService {
             request.setAttribute("msg", msg);
 
         String categoryListPage = "category_list.jsp";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(categoryListPage);
-        dispatcher.forward(request, response);
+        dispatch(categoryListPage);
     }
 
     public void list() throws ServletException, IOException {
         list(null);
     }
 
-    public List<Category> listAll(){
+    public List<Category> listAll() {
         return categoryDAO.listAll();
     }
 
@@ -53,9 +53,9 @@ public class CategoryService extends BaseService {
 
         String categoryName = request.getParameter("name");
 
-        Category existCategory = categoryDAO.findByName(categoryName);
+        Category categoryFoundByName = categoryDAO.findByName(categoryName);
 
-        if (existCategory == null) {
+        if (categoryFoundByName == null) {
 
             Category newCategory = new Category(categoryName);
             categoryDAO.create(newCategory);
@@ -66,8 +66,7 @@ public class CategoryService extends BaseService {
             String msg = "A Category with this name already exists: " + categoryName;
             request.setAttribute("msg", msg);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("message.jsp");
-            dispatcher.forward(request, response);
+            dispatch("message.jsp");
         }
     }
 
@@ -85,15 +84,13 @@ public class CategoryService extends BaseService {
             String msg = "Could not find category with ID " + categoryId;
             request.setAttribute("msg", msg);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("message.jsp");
-            dispatcher.forward(request, response);
+            dispatch("message.jsp");
         }
 
         request.setAttribute("theCategory", theCategory);
 
         String editPage = "category_edit.jsp";
-        RequestDispatcher dispatcher = request.getRequestDispatcher(editPage);
-        dispatcher.forward(request, response);
+        dispatch(editPage);
     }
 
     public void update() throws ServletException, IOException {
@@ -109,8 +106,7 @@ public class CategoryService extends BaseService {
             String msg = "Update Failed! A Category with this Name already exists: " + name;
             request.setAttribute("msg", msg);
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("message.jsp");
-            dispatcher.forward(request, response);
+            dispatch("message.jsp");
 
         } else {
 
@@ -125,21 +121,33 @@ public class CategoryService extends BaseService {
     public void delete() throws ServletException, IOException {
 
         int categoryId = Integer.parseInt(request.getParameter("categoryid"));
+        long totalNumberOfBooks = new BookDAO().countByCategory(categoryId);
 
-        try {
 
-            categoryDAO.delete(categoryId);
+        if (totalNumberOfBooks == 0) {
 
-        } catch (EntityNotFoundException ex) { // ye exception dg ke marbut be commit o tx hast dad.
+            try {
+                categoryDAO.delete(categoryId);
 
-            String msg = "Could not find category with ID " + categoryId + ", or it might have been deleted. ";
-            request.setAttribute("msg", msg);
+            } catch (EntityNotFoundException ex) { // ye exception dg ke marbut be commit o tx hast dad.
 
-            RequestDispatcher dispatcher = request.getRequestDispatcher("message.jsp");
-            dispatcher.forward(request, response);
+                String msg = "Could not find category with ID " + categoryId + ", or it might have been deleted. ";
+                request.setAttribute("msg", msg);
+
+                dispatch("message.jsp");
+            }
+
+            list("The Category Has Been Deleted Successfully!");
+
+        } else {
+
+            list("Could not delete category with ID " + categoryId + ", Because This category contains some books. ");
         }
+    }
 
+    private void dispatch(String destination) throws ServletException, IOException {
 
-        list("The Category Has Been Deleted Successfully!");
+        RequestDispatcher dispatcher = request.getRequestDispatcher(destination);
+        dispatcher.forward(request, response);
     }
 }

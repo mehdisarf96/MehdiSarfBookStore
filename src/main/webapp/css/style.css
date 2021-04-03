@@ -60,6 +60,7 @@ th {
 table.tablesinform {
     border: 0;
     padding: 4px;
+    width: 80%;
 }
 
 input {
@@ -85,9 +86,32 @@ button:hover {
     color: #ff338d;
 }
 
-.error{
+.error {
     font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
     color: #ff338d;
     margin: 5px;
     font-style: italic;
+}
+
+.error404 {
+    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    color: white;
+    font-size: small;
+    background-color: black;
+}
+
+.sectiontitle {
+    font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+    color: #ffd511;
+    margin: 5px;
+    font-style: italic;
+}
+
+div.center {
+    text-align: center;
+}
+
+.book {
+    display: inline-block;
+    margin: 20px;
 }

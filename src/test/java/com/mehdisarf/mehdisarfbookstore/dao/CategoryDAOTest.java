@@ -10,15 +10,14 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class CategoryDAOTest extends BaseDAOTest {
+public class CategoryDAOTest {
 
     private static CategoryDAO categoryDAO;
 
     @BeforeClass
     public static void setUpClass() throws Exception {
 
-        BaseDAOTest.setUpClass();
-        categoryDAO = new CategoryDAO(entityManager);
+        categoryDAO = new CategoryDAO();
     }
 
     @Test
@@ -65,7 +64,7 @@ public class CategoryDAOTest extends BaseDAOTest {
     @Test
     public void testDelete() {
 
-        int categoryId = 11;
+        int categoryId = 37;
 
         categoryDAO.delete(categoryId);
 
@@ -119,7 +118,7 @@ public class CategoryDAOTest extends BaseDAOTest {
 
     @AfterClass
     public static void tearDownClass() throws Exception {
-        BaseDAOTest.tearDownClass();
+        categoryDAO.closeFactory();
     }
 
 }

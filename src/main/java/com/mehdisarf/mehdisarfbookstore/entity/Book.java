@@ -5,6 +5,20 @@ import java.sql.Timestamp;
 import java.util.*;
 
 @Entity
+@Table(name = "Book")
+@NamedQueries(
+        {
+                @NamedQuery(name = "Book.findAll", query = "select b from Book b order by b.title"),
+                @NamedQuery(name = "Book.countAll", query = "select count(*) from Book b"),
+                @NamedQuery(name = "Book.countByCategory", query = "select count(b) from Book b join Category  c on b.category.categoryId = c.categoryId and c.categoryId = :catId"),
+                @NamedQuery(name = "Book.findByTitle", query = "select b from Book b where b.title = :title"),
+                @NamedQuery(name = "Book.findByCategory", query = "select b from Book b join Category c on b.category.categoryId = c.categoryId and c.categoryId =: categoryId"),
+                @NamedQuery(name = "Book.listNew", query = "select b from Book b order by b.publishDate desc "),
+
+                @NamedQuery(name = "Book.search", query = "select b from Book b where b.title like '%' || :keyword|| '%'" +
+                        " or b.author like '%' || :keyword || '%' or b.description like '%' || :keyword || '%'")
+        }
+)
 public class Book {
 
     private Integer bookId;
@@ -197,7 +211,7 @@ public class Book {
         this.reviews = reviews;
     }
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "book")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "book")
     public Set<OrderDetail> getOrderDetails() {
         return this.orderDetails;
     }
@@ -205,4 +219,61 @@ public class Book {
     public void setOrderDetails(Set<OrderDetail> orderDetails) {
         this.orderDetails = orderDetails;
     }
+
+    @Transient
+    public String getBase64Image() {
+        // this converts bytes[] to Base64 String.
+        this.base64Image = Base64.getEncoder().encodeToString(this.image);
+        return base64Image;
+    }
+
+    @Transient
+    public void setBase64Image(String base64Image) {
+        this.base64Image = base64Image;
+    }
+
+    @Transient
+    public float getAverageRating() {
+
+        float sum = 0.0f;
+
+        if (this.reviews.isEmpty())
+            return 0.0f;
+
+        for (Review review : this.reviews) {
+            sum += review.getRating();
+        }
+
+        return sum / this.reviews.size();
+    }
+
+    @Transient
+    public String convertAverageRatingToString(float averageRating) {
+
+        String result = "";
+
+        int averageRatingFloor = (int) averageRating;
+        int startPointForOff = averageRatingFloor + 1;
+
+        for (int i = 1; i <= averageRatingFloor; i++) {
+            result = result + "on,";
+        }
+
+        if (averageRating > averageRatingFloor) {
+            result = result + "half,";
+            startPointForOff++;
+        }
+
+        for (int i = startPointForOff; i <= 5; i++) {
+            result = result + "off,";
+        }
+
+        return result.substring(0, result.length() - 1);
+    }
+
+    @Transient
+    public String getRatingString() {
+        return convertAverageRatingToString(getAverageRating());
+    }
+
 }
